@@ -48,7 +48,94 @@ public class Application {
                 "Park Place",
                 "Luxury Tax",
                 "Boardwalk"};
-        PropertyUp properties[] = new PropertyUp[spaces.length];
+        String[] prices = {
+                "0",
+                "60",
+                "0",
+                "60",
+                "200",
+                "200",
+                "100",
+                "0",
+                "100",
+                "120",
+                "0",
+                "140",
+                "150",
+                "140",
+                "160",
+                "200",
+                "180",
+                "0",
+                "180",
+                "200",
+                "0",
+                "220",
+                "0",
+                "220",
+                "240",
+                "200",
+                "260",
+                "260",
+                "150",
+                "280",
+                "0",
+                "300",
+                "300",
+                "0",
+                "320",
+                "200",
+                "0",
+                "350",
+                "100",
+                "400"
+        };
+        Square squares[] = new Square[spaces.length];
+        for(int i = 0; i < spaces.length; i++)
+        {
+            switch(spaces[i])
+            {
+                case "GO":
+                    squares[i] = new Square(spaces[i], i);
+                    break;
+
+                case "Community Chest":
+                    squares[i] = new Square(spaces[i], i);
+                    break;
+
+                case "Income Tax":
+                    squares[i] = new Tax(spaces[i], i, Integer.parseInt(prices[i]));
+                    break;
+
+                case "Luxury Tax":
+                    squares[i] = new Tax(spaces[i], i, Integer.parseInt(prices[i]));
+                    break;
+
+                case "Chance":
+                    squares[i] = new Square(spaces[i], i);
+                    break;
+
+                case "Park":
+                    squares[i] = new Square(spaces[i], i);
+                    break;
+
+                case "Go to Jail":
+                    squares[i] = new Square(spaces[i], i);
+                    break;
+
+                case "Jail":
+                    squares[i] = new Square(spaces[i], i);
+                    break;
+
+                default:
+                    if(spaces[i].contains("Railroad") || spaces[i].contains("Line"))
+                        squares[i] = new PropertyNon(spaces[i], i, Integer.parseInt(prices[i]));
+                    else
+                        squares[i] = new PropertyUp(spaces[i], i, Integer.parseInt(prices[i]));
+
+            }
+        }
+
         //b = new Board(spaces);
         numPlayers=num;
         players = new Player[10];

@@ -10,17 +10,17 @@ public class PropertyUp extends Square{
         rent = price / 10;
     }
 
-    public void Purchase(Player player)
+    public void Purchase(Player owning)
     {
-        System.out.println(player.name + " has purchased " + name + " for $" + price + "!");
-        player.money -= price;
-        owner = player.name;
+        System.out.println(owning.name + " has purchased " + name + " for $" + price + "!");
+        owning.money -= price;
+        owner = owning.name;
     }
 
-    public void Rent(Player player)
+    public void Rent(Player payer)
     {
-        System.out.println(player.name + " has paid " + owner + " $" + rent + " as rent!");
-        player.money -= rent;
+        System.out.println(payer.name + " has paid " + owner + " $" + rent + " as rent!");
+        payer.money -= rent;
     }
 
 }
