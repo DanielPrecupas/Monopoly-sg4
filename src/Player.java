@@ -1,6 +1,5 @@
 public class Player {
     String name;
-
     int money;
     public int position;
     public Player(String name){

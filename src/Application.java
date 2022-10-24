@@ -8,7 +8,7 @@ public class Application {
     Application(InputDevice input, OutputDevice output, int num){
         this.input = input;
         this.output = output;
-        String[] spaces = {"START",
+        String[] spaces = {"GO",
                 "Mediterranean Avenue",
                 "Community Chest",
                 "Baltic Avenue",
@@ -48,7 +48,8 @@ public class Application {
                 "Park Place",
                 "Luxury Tax",
                 "Boardwalk"};
-        b = new Board(spaces);
+        PropertyUp properties[] = new PropertyUp[spaces.length];
+        //b = new Board(spaces);
         numPlayers=num;
         players = new Player[10];
         for (int i = 0; i < getPlayers(); i++)

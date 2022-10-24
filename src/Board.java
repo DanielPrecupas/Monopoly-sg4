@@ -1,8 +1,8 @@
 public class Board {
-    String[] properties;
+    Square[] properties;
     double bank;
 
-    public Board(String[] properties) {
+    public Board(Square[] properties) {
         this.properties = properties;
         this.bank = 25000.0;
     }
