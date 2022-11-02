@@ -25,9 +25,9 @@ public class InputDevice {
 
         return names[r];
     }
-    public int throwDice() {
+    public int throwDice(int lower, int upper) {
         Random random = new Random();
-        int n = random.nextInt(2,12);
+        int n = random.nextInt(1,upper);
         return n;
     }
 }

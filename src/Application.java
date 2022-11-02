@@ -5,9 +5,31 @@ public class Application {
     private Board b;
     private Player[] players;
 
-    Application(InputDevice input, OutputDevice output, int num){
+    Application(InputDevice input, OutputDevice output){
         this.input = input;
         this.output = output;
+
+    }
+
+    public int getPlayers() {
+        return numPlayers;
+    }
+
+    public void setPlayers(int players) {
+        this.numPlayers = players;
+    }
+
+    public int getRounds() {
+        return rounds;
+    }
+
+    public void setRounds(int rounds) {
+        this.rounds = rounds;
+    }
+    int turn = 0;
+    int current_round = 0;
+    public void run(int num){
+
         String[] spaces = {"GO",
                 "Mediterranean Avenue",
                 "Community Chest",
@@ -90,7 +112,8 @@ public class Application {
                 "100",
                 "400"
         };
-        Square squares[] = new Square[spaces.length];
+
+        Square[] squares = new Square[spaces.length];
         for(int i = 0; i < spaces.length; i++)
         {
             switch(spaces[i])
@@ -130,45 +153,38 @@ public class Application {
                 default:
                     if(spaces[i].contains("Railroad") || spaces[i].contains("Line"))
                         squares[i] = new PropertyNon(spaces[i], i, Integer.parseInt(prices[i]));
+                    else if(spaces[i].contains("Company") || spaces[i].contains("Works"))
+                        squares[i] = new PropertyNon(spaces[i], i, Integer.parseInt(prices[i]));
                     else
                         squares[i] = new PropertyUp(spaces[i], i, Integer.parseInt(prices[i]));
 
             }
         }
 
-        //b = new Board(spaces);
-        numPlayers=num;
-        players = new Player[10];
+        b = new Board(squares);
+        numPlayers = num;
+        players = new Player[num];
         for (int i = 0; i < getPlayers(); i++)
             players[i]= new Player(input.getName());
-    }
 
-    public int getPlayers() {
-        return numPlayers;
-    }
+        //game running
+        while(current_round < rounds) {
+            while(turn < getPlayers()) {
+                int dice1 = input.throwDice(1, 6);
+                int dice2 = input.throwDice(1, 6);
+                int sum = dice1 + dice2;
+                players[turn].position += dice1 + dice2;
 
-    public void setPlayers(int players) {
-        this.numPlayers = players;
-    }
-
-    public int getRounds() {
-        return rounds;
-    }
-
-    public void setRounds(int rounds) {
-        this.rounds = rounds;
-    }
-    public void run(){
-        for(int i=0;i<getPlayers();i++) {
-            for (int j = 0; j < getRounds(); j++) {
-                int nr=input.throwDice();
-                players[i].position=players[i].position+nr;
+                //check type
+                b.check(players[turn], players, squares, turn, sum, getPlayers());
+                if(dice1 == dice2)
+                    turn--;
             }
-            players[i].money=players[i].money+(players[i].position/40)*200;
-            b.bank=b.bank-(players[i].position/40)*200;
-            output.writeMessage("Name: " + players[i].name + "\ncash: " + players[i].money );
-            output.writeMessage("Position: " + b.properties[players[i].position%40] + "\n");
+            turn -= getPlayers();
+            current_round++;
         }
+
+        //deciding winner
         Player winner=null;
         winner=new Player(input.getName());
         for(int i=0;i<getPlayers();i++) {
